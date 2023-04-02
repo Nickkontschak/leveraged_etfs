@@ -1,4 +1,4 @@
-import urllib.request
+import requests
 import pandas as pd
 import io
 from src.constants import DATA_PATH
@@ -6,8 +6,7 @@ from src.constants import DATA_PATH
 
 def get_historical_vix() -> None:
     url = "https://cdn.cboe.com/resources/us/indices/vixarchive.xls"
-    with urllib.request.urlopen(url) as response:
-        data = response.read()
+    data = requests.get(url).content
 
     df_vix = pd.read_excel(
         io.BytesIO(data),
@@ -21,8 +20,7 @@ def get_historical_vix() -> None:
 
 def get_current_vix() -> None:
     url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
-    with urllib.request.urlopen(url) as response:
-        data = response.read()
+    data = requests.get(url).content
 
     df_vix = pd.read_csv(
         io.BytesIO(data)

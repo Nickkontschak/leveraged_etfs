@@ -8,9 +8,9 @@ Latest update:
 https://www.bogleheads.org/forum/viewtopic.php?p=5721637#p5721637
 """
 
-import urllib.request
 import pandas as pd
 import io
+import requests
 from src.constants import DATA_PATH
 
 
@@ -21,8 +21,7 @@ def get_monthly_yield_curves() -> pd.DataFrame:
         return pd.read_parquet(DATA_PATH / "raw" / data_name)
 
     url = "https://drive.google.com/u/0/uc?id=1azbWYdUDHjjtgxJ-logORbsGOmKanqxJ"
-    with urllib.request.urlopen(url) as response:
-        data = response.read()
+    data = requests.get(url).content
 
     df = pd.read_excel(
         io.BytesIO(data), 
