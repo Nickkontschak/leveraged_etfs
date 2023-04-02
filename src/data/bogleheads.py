@@ -23,7 +23,12 @@ def get_monthly_yield_curves() -> pd.DataFrame:
     url = "https://drive.google.com/u/0/uc?id=1azbWYdUDHjjtgxJ-logORbsGOmKanqxJ"
     with urllib.request.urlopen(url) as response:
         data = response.read()
-    df = pd.read_excel(io.BytesIO(data), skiprows=3, usecols="Q:AB")
+
+    df = pd.read_excel(
+        io.BytesIO(data), 
+        skiprows=3, usecols="Q:AB"
+    )
+    
     df.columns = [c[:-2] if c.endswith(".1") else c for c in df.columns]
     df = df.rename({"End of Month": "date"}, axis=1)
     # Drop empty columns
