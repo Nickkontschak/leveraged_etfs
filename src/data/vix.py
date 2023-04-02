@@ -4,7 +4,7 @@ import io
 from src.constants import DATA_PATH
 
 
-def get_historical_vix():
+def get_historical_vix() -> None:
     url = "https://cdn.cboe.com/resources/us/indices/vixarchive.xls"
     with urllib.request.urlopen(url) as response:
         data = response.read()
@@ -14,7 +14,7 @@ def get_historical_vix():
         DATA_PATH / "raw" / "vix_historical.parquet")
 
 
-def get_current_vix():
+def get_current_vix() -> None:
     url = "https://cdn.cboe.com/api/global/us_indices/daily_prices/VIX_History.csv"
     with urllib.request.urlopen(url) as response:
         data = response.read()
@@ -25,7 +25,7 @@ def get_current_vix():
         DATA_PATH / "raw" / "vix_current.parquet")
 
 
-def get_vix(update=False):
+def get_vix(update: bool = False) -> pd.DataFrame:
     if not (DATA_PATH / "raw" / "vix_historical.parquet").exists():
         get_historical_vix()
     if update or not (DATA_PATH / "vix_current.parquet").exists():
